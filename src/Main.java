@@ -1,6 +1,5 @@
 import model.Port;
 import model.Ship;
-import service.ShipService;
 
 public class Main {
     public static void main(String[] args) {
@@ -9,9 +8,7 @@ public class Main {
             int shipMaxCapacity = (int) (Math.random() * 500) + 100;
             int containersOnBoard = (int) (Math.random() * shipMaxCapacity);
             final int shipIndex = i;
-            new Thread(() -> {
-                ShipService.doAction(new Ship("Ship " + (shipIndex + 1), shipMaxCapacity, containersOnBoard), port);
-            }).start();
+            new Thread(new Ship("Ship " + (shipIndex + 1), shipMaxCapacity, containersOnBoard, port)).start();
         }
     }
 }

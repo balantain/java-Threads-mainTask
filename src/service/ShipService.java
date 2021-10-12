@@ -15,7 +15,7 @@ public class ShipService {
     private static final Condition condition = LOCK.newCondition();
 
     public static void doAction(Ship ship, Port port){ // we give an opportunity for all ships to come in port
-        System.out.println(ship.toString() + " arrived to the port, looking for a free dock.");
+        System.out.println(ship.toString() + " arrived to the port, looking for a free dock...");
         try {
             TimeUnit.MILLISECONDS.sleep(500);  // programme logic:
             port.getSemaphore().acquire();            // using port semaphore we give an opportunity to do some actions only for 3 ships
@@ -45,7 +45,7 @@ public class ShipService {
             e.printStackTrace();
         } finally {
             port.getSemaphore().release();
-            System.out.println(ship.toString() + " leaves the port");
+            System.out.println(ship.toString() + " leaves the port.");
         }
     }
 
@@ -56,7 +56,7 @@ public class ShipService {
             LOCK.lock();
             System.out.println(ship.toString() + ": needs to load " + containersToLoad + " containers, there are " + port.getContainersInPort() + " containers in port.");
             if (containersToLoad > port.getContainersInPort()){
-                System.out.println(ship.getName() + ": NOT ENOUGH CONTAINERS");
+                System.out.println(ship.getName() + ": NOT ENOUGH CONTAINERS IN PORT TO LOAD THE SHIP!");
                 condition.await(5, TimeUnit.SECONDS);
                 if (containersToLoad > port.getContainersInPort()){
                     System.out.println(ship.getName() + " LOAD FAILED! LEAVING WITHOUT CARGO");
@@ -94,7 +94,7 @@ public class ShipService {
                 System.out.println(ship.getName() + ": NOT ENOUGH FREE SPACE IN PORT");
                 condition.await(5, TimeUnit.SECONDS);
                 if (containersToUnload > port.getPortFreeSpace()){
-                    System.out.println(ship.getName() + " COULDN'T UNLOAD LEAVING WITH CARGO");
+                    System.out.println(ship.getName() + ": UNLOAD FAILED! LEAVING WITH CARGO");
                 } else {
                     moveContainersFromShipToPort(ship, port, containersToUnload);
                     isSuccessfully = true;

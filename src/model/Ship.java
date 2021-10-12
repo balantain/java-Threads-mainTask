@@ -32,10 +32,11 @@ public class Ship implements Runnable {
         this.containersOnBoard = containersOnBoard;
     }
 
-    public Ship(String name, int shipMaxCapacity, int containersOnBoard) {
+    public Ship(String name, int shipMaxCapacity, int containersOnBoard, Port port) {
         this.name = name;
         this.shipMaxCapacity = shipMaxCapacity;
         this.containersOnBoard = containersOnBoard;
+        this.port = port;
     }
     public int getFreeSpaceOnBoard(){
         return shipMaxCapacity - containersOnBoard;
